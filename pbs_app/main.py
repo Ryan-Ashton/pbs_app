@@ -8,12 +8,14 @@ from kivymd.uix.boxlayout import MDBoxLayout
 from kivymd.uix.gridlayout import MDGridLayout
 from kivy.uix.scrollview import ScrollView
 
+from kivy.factory import Factory
+
+from file_manager import GrabFile
 
 from kivy.core.window import Window
-Window.size = (800, 750)
+Window.size = (800, 850)
 
 from scraper import Scraper
-
 
 
 class MDBoxLayout(MDBoxLayout):
@@ -47,8 +49,6 @@ class Data(MDApp, MDDataTable, Scraper):
             elevation=2,
         )
 
-        
-
         return self.data_table
 
 class MainApp(MDApp, Scraper):
@@ -57,7 +57,13 @@ class MainApp(MDApp, Scraper):
         return self.root.ids.table.add_widget(Data.table_build(self))
 
     def build(self):
-        return Builder.load_file('main.kv')
+        # return Builder.load_file('main.kv')
+        return self.load_all_kv_files()
+
+    def load_all_kv_files(self):
+        Builder.load_file('main.kv')
+        
+
 
 
 
