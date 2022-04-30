@@ -3,10 +3,8 @@ from kivy.metrics import dp
 from kivymd.app import MDApp
 from kivymd.uix.datatables import MDDataTable
 from kivymd.uix.screen import MDScreen
+from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.lang import Builder
-from kivymd.uix.boxlayout import MDBoxLayout
-from kivymd.uix.gridlayout import MDGridLayout
-from kivy.uix.scrollview import ScrollView
 
 from kivy.factory import Factory
 
@@ -16,16 +14,9 @@ from kivy.core.window import Window
 Window.size = (800, 850)
 
 from components.scraper import Scraper
+from screens.home import Home
 
 
-class MDBoxLayout(MDBoxLayout):
-    pass
-
-class MDGridLayout(MDGridLayout):
-    pass
-
-class ScrollView(ScrollView):
-    pass
 
 
 class Data(MDApp, MDDataTable, Scraper):
@@ -51,20 +42,27 @@ class Data(MDApp, MDDataTable, Scraper):
 
         return self.data_table
 
+
 class MainApp(MDApp, Scraper):
     
     def tab_build(self):
-        return self.root.ids.table.add_widget(Data.table_build(self))
+        # return self.root.ids.table.add_widget(Data.table_build(self))
+        return self.sm.get_screen('Home').ids.table.add_widget(Data.table_build(self))
 
     def build(self):
-        # return Builder.load_file('main.kv')
-        return self.load_all_kv_files()
+        self.load_all_kv_files()
+        self.sm = ScreenManager()
+        screens = [Home(), GrabFile()]
+        for screen in screens:
+            self.sm.add_widget(screen)
+
+        return self.sm
 
     def load_all_kv_files(self):
-        Builder.load_file('main.kv')
+        Builder.load_file('screens/home.kv')
+        Builder.load_file('components/file_manager.kv')
         
 
 
-
-
 MainApp().run()
+

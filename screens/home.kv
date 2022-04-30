@@ -1,0 +1,130 @@
+#:kivy 2.0.0
+#:import ScrollView kivy.uix.scrollview
+#:import GrabFile components.file_manager.GrabFile
+
+<Home>:
+    name: 'Home'
+
+    MDBoxLayout:
+        orientation: 'vertical'
+
+        MDTopAppBar:
+            title: "PBS Scrape Tool - Services"
+
+
+        ScrollView:
+            do_scroll_x: False
+            do_scroll_y: True
+            
+            MDGridLayout:
+                cols: 1
+                adaptive_height: True
+                size_hint_y: None
+                height: self.minimum_height
+
+                MDBoxLayout:
+                    orientation: 'vertical'
+                    size_hint_y: None
+                    padding: 30
+                
+                    MDLabel:
+                        text: "Input"
+                        theme_text_color: 'Primary'
+                        size_hint_y: None
+                        height: self.texture_size[1]
+
+                    MDLabel:
+                        text: "Paste the item codes into the box below seperated by a comma and no spaces"
+                        theme_text_color: 'Secondary'
+                        size_hint_y: None
+                        height: self.texture_size[1]
+
+                MDBoxLayout:
+                    adaptive_height: True
+                    orientation: 'vertical'
+                    size_hint_y: None
+                    size_hint_x: .7
+                    padding: 30
+
+                    MDTextField:
+                        id: item_codes
+                        hint_text: "Item Codes"
+                        multiline: True
+                        size_hint_y: None
+                
+                    MDRaisedButton:
+                        size_hint_y: None
+                        text: 'Start Scraping!'
+                        on_release: app.tab_build()
+
+                MDSeparator:
+
+                MDBoxLayout:
+                    size_hint_x: 1
+                    size_hint_y: None
+                    height: 300
+                    id: table
+                    padding: 30
+
+                MDSeparator:
+
+                MDGridLayout:
+                    cols:1
+                    size_hint_y: None
+                    height: self.minimum_height
+
+                    MDBoxLayout:
+                        orientation: 'vertical'
+                        size_hint_y: None
+                        padding: 30
+
+                        MDLabel:
+                            spacing: 20
+                            size_hint_x: 1
+                            size_hint_y: None
+                            height: self.texture_size[1]
+                            halign: "left"
+                            text: 'Download'
+                            theme_text_color: 'Primary'
+
+                        MDLabel:
+                            spacing: 20
+                            size_hint_x: 1
+                            size_hint_y: None
+                            height: self.texture_size[1]
+                            halign: "left"
+                            text: 'Type file path where you want to save the file'
+                            theme_text_color: 'Secondary'
+                    
+                    MDBoxLayout:
+                        orientation: 'vertical'
+                        size_hint_y: None
+                        padding: 30
+
+                        MDBoxLayout:
+                            orientation: 'horizontal'
+                            size_hint_y: None
+                            padding: 3
+
+
+                            MDTextField:
+                                id: file_path
+                                size_hint_x: self.width * .9
+                                size_hint_y: None
+                                multiline: True
+                                hint_text: "C/Users/User/Desktop/test.csv"
+                                text: ''
+                            
+                            GrabFile:
+                                text: "Upload File"
+                                
+                            
+                        MDRaisedButton:
+                            size_hint_y: None
+                            text: 'Start Download'
+                            on_release: app.download_csv()
+
+
+
+                        
+

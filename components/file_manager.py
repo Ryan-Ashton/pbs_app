@@ -6,13 +6,15 @@ from kivymd.uix.filemanager import MDFileManager
 from kivymd.uix.button import MDRaisedButton
 from kivy.factory import Factory
 from kivymd.toast import toast
+from kivy.properties import StringProperty
 
 import pandas as pd
 
-Builder.load_file('components/file_manager.kv')
+# Builder.load_file('components/file_manager.kv')
 
 class GrabFile(Screen):
 
+    
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -22,6 +24,7 @@ class GrabFile(Screen):
             exit_manager=self.exit_manager,
             select_path=self.select_path
         )
+
 
     def file_manager_open(self):
         self.file_manager.show(r'C:\Users')  # output manager to the screen
@@ -36,8 +39,6 @@ class GrabFile(Screen):
 
         self.exit_manager()
         toast(path)
-        print(self.file_manager)
-        return print(str(path))
 
 
     def exit_manager(self, *args):
@@ -54,6 +55,9 @@ class GrabFile(Screen):
             if self.manager_open:
                 self.file_manager.back()
         return True
+
+    def get_path(self):
+        return self.new_path
 
     def build(self):
         

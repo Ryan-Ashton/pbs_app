@@ -7,7 +7,7 @@ class Scraper():
 
     def get_data(self):
 
-        items = self.root.ids.item_codes.text.replace(" ", "").split(',')
+        items = self.sm.get_screen('Home').ids.item_codes.text.replace(" ", "").split(',')
         print(items)
 
 
