@@ -3,24 +3,17 @@ from kivy.lang import Builder
 from kivy.core.window import Window
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivymd.uix.filemanager import MDFileManager
-from kivymd.uix.button import MDRaisedButton
 from kivy.factory import Factory
 from kivymd.toast import toast
-from kivy.properties import StringProperty
 
 import pandas as pd
 
-# Builder.load_file('components/file_manager.kv')
 
 class GrabFile(Screen):
 
-    # To do
-    # Update the "update_path" parameter to reflect path selection from the select_path function
-
-    def __init__(self, update_path='', **kwargs):
+    def __init__(self, **kwargs):
         super().__init__(**kwargs)
         Window.bind(on_keyboard=self.events)
-        self._update_path = update_path
         self.manager_open = False
         self.file_manager = MDFileManager(
             exit_manager=self.exit_manager,
@@ -41,9 +34,9 @@ class GrabFile(Screen):
 
         self.exit_manager()
         toast(path)
-        self._update_path = path
+        with open ('components/path.txt', 'w') as f:
+            f.write(path + '\pbs_download.csv')
 
-    update_path = property(fset=select_path)
 
 
     def exit_manager(self, *args):
@@ -51,6 +44,7 @@ class GrabFile(Screen):
 
         self.manager_open = True
         self.file_manager.close()
+
 
 
     def events(self, instance, keyboard, keycode, text, modifiers):
