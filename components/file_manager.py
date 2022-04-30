@@ -9,7 +9,7 @@ from kivymd.toast import toast
 
 import pandas as pd
 
-Builder.load_file('file_manager.kv')
+Builder.load_file('components/file_manager.kv')
 
 class GrabFile(Screen):
 
