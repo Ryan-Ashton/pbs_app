@@ -1,22 +1,24 @@
+# Kivy Dependencies
 from kivy.metrics import dp
-
 from kivymd.app import MDApp
 from kivymd.uix.datatables import MDDataTable
 from kivymd.uix.screen import MDScreen
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.lang import Builder
-
+from kivymd.toast import toast
 from kivy.factory import Factory
 
+# Screens and Components
 from components.file_manager import GrabFile
-
-from kivy.core.window import Window
-Window.size = (800, 850)
-
 from components.scraper import Scraper
 from screens.home import Home
 
+# Additional Dependencies
+import pandas as pd
 
+#  Resize the Window when starting the App
+from kivy.core.window import Window
+Window.size = (800, 850)
 
 
 class Data(MDApp, MDDataTable, Scraper):
@@ -46,7 +48,7 @@ class Data(MDApp, MDDataTable, Scraper):
 class MainApp(MDApp, Scraper):
     
     def tab_build(self):
-        # return self.root.ids.table.add_widget(Data.table_build(self))
+        toast("Download has started, please wait :)")
         return self.sm.get_screen('Home').ids.table.add_widget(Data.table_build(self))
 
     def build(self):
@@ -55,18 +57,26 @@ class MainApp(MDApp, Scraper):
         screens = [Home(), GrabFile()]
         for screen in screens:
             self.sm.add_widget(screen)
-
-        
-
         return self.sm
 
     def load_all_kv_files(self):
         Builder.load_file('screens/home.kv')
         Builder.load_file('components/file_manager.kv')
 
-    def check(self):
-        return print(GrabFile()._update_path)
-        
+    def download_csv(self):
+        if self.sm.get_screen('Home').ids.file_path.text == '':
+            with open('components/path.txt') as f:
+                path = f.read()
+            df = Scraper.get_data(self)
+            df.to_csv(path, index=False)
+
+        elif self.sm.get_screen('Home').ids.file_path.text != '':
+            df = Scraper.get_data(self)
+            path = self.sm.get_screen('Home').ids.file_path.text
+            df.to_csv(path, index=False)
+
+        else:
+            toast('Please select a file')
 
 MainApp().run()
 
