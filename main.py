@@ -56,13 +56,17 @@ class MainApp(MDApp, Scraper):
         for screen in screens:
             self.sm.add_widget(screen)
 
+        
+
         return self.sm
 
     def load_all_kv_files(self):
         Builder.load_file('screens/home.kv')
         Builder.load_file('components/file_manager.kv')
-        
 
+    def check(self):
+        return print(GrabFile()._update_path)
+        
 
 MainApp().run()
 

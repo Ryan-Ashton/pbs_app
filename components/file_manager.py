@@ -14,11 +14,13 @@ import pandas as pd
 
 class GrabFile(Screen):
 
-    
+    # To do
+    # Update the "update_path" parameter to reflect path selection from the select_path function
 
-    def __init__(self, **kwargs):
+    def __init__(self, update_path='', **kwargs):
         super().__init__(**kwargs)
         Window.bind(on_keyboard=self.events)
+        self._update_path = update_path
         self.manager_open = False
         self.file_manager = MDFileManager(
             exit_manager=self.exit_manager,
@@ -39,6 +41,9 @@ class GrabFile(Screen):
 
         self.exit_manager()
         toast(path)
+        self._update_path = path
+
+    update_path = property(fset=select_path)
 
 
     def exit_manager(self, *args):
